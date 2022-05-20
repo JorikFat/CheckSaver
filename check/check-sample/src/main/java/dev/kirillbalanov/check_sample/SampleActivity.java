@@ -1,17 +1,20 @@
 package dev.kirillbalanov.check_sample;
 
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.SharedPreferences;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,33 +25,48 @@ import java.util.Calendar;
 
 public class SampleActivity extends AppCompatActivity {
 
-    EditText number, date, time;
+    TextView check;
     Calendar calendar;
 
     DatePickerDialog.OnDateSetListener dateSetListener;
     TimePickerDialog.OnTimeSetListener timeSetListener;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        number = findViewById(R.id.number_dialog);
-        date = findViewById(R.id.date_dialog);
-        time = findViewById(R.id.time_dialog);
+        check = findViewById(R.id.tv_check);
 
-        number.setInputType(InputType.TYPE_NULL);
-        date.setInputType(InputType.TYPE_NULL); // создают тип инпутов необходимых для загрузки диалога, вместо текста
-        time.setInputType(InputType.TYPE_NULL);
+        myCustomDialog();
+    }
 
-        number.setOnClickListener(new View.OnClickListener() {
+    private void myCustomDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        ConstraintLayout customLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.layout_custom, null);
+
+        TextView time = customLayout.findViewById(R.id.time_dialog);
+        TextView date = customLayout.findViewById(R.id.date_dialog);
+        EditText number = customLayout.findViewById(R.id.number_dialog);
+
+
+        builder.setView(customLayout);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showNumberDialog(number);
+            public void onClick(DialogInterface dialogInterface, int i) {
+                check.setText("Summary: " + number.getText() + " Date: " + date.getText() + " Time: " + time.getText());
             }
         });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //only close
+            }
+        });
+        builder.show();
+
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,10 +80,8 @@ public class SampleActivity extends AppCompatActivity {
             }
         });
     }
-    private void showNumberDialog(EditText number) {
-    }
 
-    private void showTimeDialog(EditText time) {
+    private void showTimeDialog(TextView time) {
         calendar = Calendar.getInstance();
         timeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -74,13 +90,14 @@ public class SampleActivity extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, minute);
 
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+
                 time.setText(simpleDateFormat.format(calendar.getTime()));
             }
         };
         new TimePickerDialog(SampleActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
     }
 
-    private void showDateDialog(EditText date){
+    private void showDateDialog(TextView date){
         calendar = Calendar.getInstance();
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
