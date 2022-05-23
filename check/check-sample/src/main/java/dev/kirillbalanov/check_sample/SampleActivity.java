@@ -1,6 +1,7 @@
 package dev.kirillbalanov.check_sample;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -8,9 +9,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class SampleActivity extends AppCompatActivity {
+    //objects for my saved preferences
+    private SharedPreferences pref;
+    private final String saveKey = "save key";
 
     TextView check;
     Calendar calendar;
@@ -36,7 +43,7 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        check = findViewById(R.id.tv_check);
+        init();
 
         myCustomDialog();
     }
@@ -51,12 +58,15 @@ public class SampleActivity extends AppCompatActivity {
         TextView date = customLayout.findViewById(R.id.date_dialog);
         EditText number = customLayout.findViewById(R.id.number_dialog);
 
-
         builder.setView(customLayout);
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 check.setText("Summary: " + number.getText() + " Date: " + date.getText() + " Time: " + time.getText());
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putString(saveKey, check.getText().toString());
+                edit.apply();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -111,5 +121,12 @@ public class SampleActivity extends AppCompatActivity {
             }
         };
         new DatePickerDialog(SampleActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void init(){
+        check = findViewById(R.id.tv_check);
+        //initialize preferences and set start latest saved date for check
+        pref = getSharedPreferences("Storage", MODE_PRIVATE);
+        check.setText(pref.getString(saveKey, "enter the data"));
     }
 }
