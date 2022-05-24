@@ -15,49 +15,51 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import dev.kirillbalanov.check_sample.pojo.Bill;
+
 public class SampleActivity extends AppCompatActivity {
     //objects for my saved preferences
     private SharedPreferences pref;
-    private final String saveKey = "save key";
+    private final String saveBillKey = "save_bill_key";
 
-    TextView check;
+    TextView billValue;
     Calendar calendar;
 
-    DatePickerDialog.OnDateSetListener dateSetListener;
-    TimePickerDialog.OnTimeSetListener timeSetListener;
+    private Bill bill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        check = findViewById(R.id.tv_check);
         //initialize preferences and set start latest saved date for check
         pref = getSharedPreferences("Storage", MODE_PRIVATE);
-        check.setText(pref.getString(saveKey, "enter the data"));
 
-        if(check.getText().toString().equals("enter the data")) {
+        billValue = findViewById(R.id.tv_check);
+        billValue.setText(pref.getString(saveBillKey, "enter the data"));
+
+        if(billValue.getText().toString().equals("enter the data")) {
             myCustomDialog();
         }
     }
 
     @SuppressLint("SetTextI18n")
     private void myCustomDialog() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         ConstraintLayout customLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.layout_custom, null);
 
-        TextView time = customLayout.findViewById(R.id.time_dialog);
-        TextView date = customLayout.findViewById(R.id.date_dialog);
         EditText number = customLayout.findViewById(R.id.number_dialog);
+        TextView date = customLayout.findViewById(R.id.date_dialog);
+        TextView time = customLayout.findViewById(R.id.time_dialog);
 
         builder.setView(customLayout);
 
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            check.setText("Summary: " + number.getText() + " Date: " + date.getText() + " Time: " + time.getText());
+            bill = new Bill(number.getText().toString(), date.getText().toString(), time.getText().toString());
+            billValue.setText(bill.getAllValues());
             SharedPreferences.Editor edit = pref.edit();
-            edit.putString(saveKey, check.getText().toString());
+            edit.putString(saveBillKey, bill.getTotal());
             edit.apply();
         });
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> {
@@ -70,8 +72,8 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void showTimeDialog(TextView time) {
-        calendar = Calendar.getInstance();
-        timeSetListener = (timePicker, hour, minute) -> {
+         calendar = Calendar.getInstance();
+        TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
 
@@ -84,7 +86,7 @@ public class SampleActivity extends AppCompatActivity {
 
     private void showDateDialog(TextView date){
         calendar = Calendar.getInstance();
-        dateSetListener = (datePicker, year, month, day) -> {
+        DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, day) -> {
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, day);
