@@ -1,14 +1,14 @@
 package dev.kirillbalanov.check_sample.pojo;
 
-public class Check {
+public class Bill {
 
-    private long id;
+    private long id = 0;
     private final String total;
     private final String date;
     private final String time;
 
-    public Check(long id, String total, String date, String time) {
-        this.id = id;
+    public Bill(String total, String date, String time) {
+        this.id++;
         this.total = total;
         this.date = date;
         this.time = time;
@@ -35,7 +35,7 @@ public class Check {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Check check = (Check) o;
+        Bill check = (Bill) o;
 
         if (id != check.id) return false;
         if (!total.equals(check.total)) return false;
