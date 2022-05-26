@@ -52,7 +52,6 @@ public class SampleActivity extends AppCompatActivity {
         if(checkValue != null) {
             myCustomDialog();
         }
-
     }
 
     @SuppressLint("SetTextI18n")
