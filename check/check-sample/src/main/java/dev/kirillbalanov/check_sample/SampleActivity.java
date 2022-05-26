@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,6 +21,10 @@ public class SampleActivity extends AppCompatActivity {
     //objects for my saved preferences
     private SharedPreferences pref;
     private final String saveCheckKey = "save_check_key";
+    private final String saveIdKey = "save_id_key";
+    private final String saveTotalKey = "save_total_key";
+    private final String saveDateKey = "save_date_key";
+    private final String saveTimeKey = "save_time_key";
 
     TextView checkValue;
     Calendar calendar;
@@ -39,8 +42,6 @@ public class SampleActivity extends AppCompatActivity {
         //initialize preferences and set start latest saved date for check
         pref = getSharedPreferences("Storage", MODE_PRIVATE);
 
-        checkValue = findViewById(R.id.tv_check);
-        checkValue.setText(pref.getString(saveCheckKey, "enter the data"));
 
 //        checkValue.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -48,10 +49,15 @@ public class SampleActivity extends AppCompatActivity {
 //                showChangeCheckDialog();
 //            }
 //        });
+        checkValue = findViewById(R.id.tv_check);
+        checkValue.setText(pref.getString(saveCheckKey, "enter the data"));
 
-        if(checkValue != null) {
+        check = new Check(pref.getLong(saveIdKey, 0), pref.getString(saveTotalKey, null), pref.getString(saveDateKey, null), pref.getString(saveTimeKey, null));
+
+        if (check.getTotal() == null & check.getDate() == null & check.getTime() == null) {
             myCustomDialog();
         }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -88,6 +94,10 @@ public class SampleActivity extends AppCompatActivity {
             checkValue.setText(check.getAllValues());
             SharedPreferences.Editor edit = pref.edit();
             edit.putString(saveCheckKey, check.getAllValues());
+            edit.putLong(saveIdKey, check.getId());
+            edit.putString(saveTotalKey, check.getTotal());
+            edit.putString(saveDateKey, check.getDate());
+            edit.putString(saveTimeKey, check.getTime());
             edit.apply();
         });
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> {
