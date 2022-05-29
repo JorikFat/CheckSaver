@@ -54,10 +54,9 @@ public class SampleActivity extends AppCompatActivity {
 
         check = new Check(pref.getLong(saveIdKey, 0), pref.getString(saveTotalKey, null), pref.getString(saveDateKey, null), pref.getString(saveTimeKey, null));
 
-        if (check.getTotal() == null & check.getDate() == null & check.getTime() == null) {
+        if (check.getTotal() == null && check.getDate() == null && check.getTime() == null) {
             myCustomDialog();
         }
-
     }
 
     @SuppressLint("SetTextI18n")
