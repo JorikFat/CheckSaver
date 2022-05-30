@@ -3,9 +3,9 @@ package dev.kirillbalanov.check_sample.pojo;
 public class Check {
 
     private long id;
-    private final String total;
-    private final String date;
-    private final String time;
+    private String total;
+    private String date;
+    private String time;
 
     public Check(long id, String total, String date, String time) {
         this.id = id;
@@ -18,16 +18,32 @@ public class Check {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getTotal() {
         return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
 
     public String getDate() {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTime() {
         return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @Override
