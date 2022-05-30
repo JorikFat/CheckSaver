@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "CheckSaver"
 include ':app'
 include ':check:check-sample'
+include ':core'
