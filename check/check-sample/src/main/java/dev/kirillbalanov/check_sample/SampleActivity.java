@@ -1,7 +1,6 @@
 package dev.kirillbalanov.check_sample;
 
-import static dev.kirillbalanov.check_sample.Const.dateFormat;
-import static dev.kirillbalanov.check_sample.Const.timeFormat;
+import static dev.jorik.checksaver.core.Utils.*;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
