@@ -25,10 +25,6 @@ public class SampleActivity extends AppCompatActivity {
     private final String saveDateKey = "save_date_key";
     private final String saveTimeKey = "save_time_key";
 
-    String emptyText = getString(R.string.empty_text);
-    String positiveVar = getString(R.string.positive_variant);
-    String negativVar = getString(R.string.negative_variant);
-
     private TextView checkValue;
     private Calendar calendar;
 
@@ -45,7 +41,7 @@ public class SampleActivity extends AppCompatActivity {
         pref = getSharedPreferences("Storage", MODE_PRIVATE);
 
         checkValue = findViewById(R.id.tv_check);
-        checkValue.setText(emptyText);
+        checkValue.setText(R.string.empty_text);
 
         check = new Check(
                 pref.getLong(saveIdKey, 0),
@@ -84,7 +80,7 @@ public class SampleActivity extends AppCompatActivity {
             time.setText(timeFormat.format(calendar.getTime()));
         };
 
-        builder.setPositiveButton(positiveVar, (d, i) -> {
+        builder.setPositiveButton(getString(R.string.positive_variant), (d, i) -> {
             check = new Check(1L, number.getText().toString(), date.getText().toString(), time.getText().toString());
             checkValue.setText(check.getAllValues());
             pref.edit()
@@ -95,9 +91,10 @@ public class SampleActivity extends AppCompatActivity {
                     .putString(saveTimeKey, check.getTime())
                     .apply();
         });
-        builder.setNegativeButton(negativVar, (d, i) -> {
+        builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {
             //only close
         });
+        builder.setTitle(getString(R.string.new_dialog_title));
         builder.show();
 
         time.setOnClickListener(view -> showTimeDialog());
