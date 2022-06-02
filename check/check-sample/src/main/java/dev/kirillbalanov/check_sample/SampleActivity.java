@@ -25,6 +25,10 @@ public class SampleActivity extends AppCompatActivity {
     private final String saveDateKey = "save_date_key";
     private final String saveTimeKey = "save_time_key";
 
+    String emptyText = getString(R.string.empty_text);
+    String positiveVar = getString(R.string.positive_variant);
+    String negativVar = getString(R.string.negative_variant);
+
     private TextView checkValue;
     private Calendar calendar;
 
@@ -41,7 +45,7 @@ public class SampleActivity extends AppCompatActivity {
         pref = getSharedPreferences("Storage", MODE_PRIVATE);
 
         checkValue = findViewById(R.id.tv_check);
-        checkValue.setText(pref.getString(saveCheckKey, "enter the data"/*todo take from resources*/));
+        checkValue.setText(emptyText);
 
         check = new Check(
                 pref.getLong(saveIdKey, 0),
@@ -80,7 +84,7 @@ public class SampleActivity extends AppCompatActivity {
             time.setText(timeFormat.format(calendar.getTime()));
         };
 
-        builder.setPositiveButton("OK"/*todo take from resources*/, (d, i) -> {
+        builder.setPositiveButton(positiveVar, (d, i) -> {
             check = new Check(1L, number.getText().toString(), date.getText().toString(), time.getText().toString());
             checkValue.setText(check.getAllValues());
             pref.edit()
@@ -91,7 +95,7 @@ public class SampleActivity extends AppCompatActivity {
                     .putString(saveTimeKey, check.getTime())
                     .apply();
         });
-        builder.setNegativeButton("Cancel"/*todo take from resources*/, (d, i) -> {
+        builder.setNegativeButton(negativVar, (d, i) -> {
             //only close
         });
         builder.show();
