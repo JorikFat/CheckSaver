@@ -74,12 +74,10 @@ public class SampleActivity extends AppCompatActivity {
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, day);
-
         };
         timeSetListener = (timePicker, hour, minute) -> {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
-            time.setText(timeFormat.format(calendar.getTime()));
         };
 
         builder.setPositiveButton(getString(R.string.positive_variant), (d, i) -> {
@@ -108,6 +106,7 @@ public class SampleActivity extends AppCompatActivity {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         new TimePickerDialog(this, timeSetListener, hour, minute, true).show();
+        time.setText(timeFormat.format(calendar.getTime()));
     }
 
     private void showDateDialog(){
@@ -122,7 +121,7 @@ public class SampleActivity extends AppCompatActivity {
                 datePickerDialog.setOnDateSetListener(dateSetListener);
             }
             date.setText(dateFormat.format(calendar.getTime()));
-                showTimeDialog();
+            showTimeDialog();
         });
 
     }
