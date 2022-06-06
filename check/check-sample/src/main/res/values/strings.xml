@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">check-sample</string>
+
     <string name="empty_text">Enter the data</string>
+
     <string name="positive_variant">OK</string>
     <string name="negative_variant">Cancel</string>
+
+    <string name="new_dialog_title">Новый чек</string>
 
 </resources>

@@ -4,11 +4,16 @@ import static dev.jorik.checksaver.core.Utils.*;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,17 +30,20 @@ public class SampleActivity extends AppCompatActivity {
     private final String saveDateKey = "save_date_key";
     private final String saveTimeKey = "save_time_key";
 
-    String emptyText = getString(R.string.empty_text);
-    String positiveVar = getString(R.string.positive_variant);
-    String negativVar = getString(R.string.negative_variant);
-
     private TextView checkValue;
+
+
     private Calendar calendar;
 
     private Check check;
 
+    Context context;
+
     DatePickerDialog.OnDateSetListener dateSetListener;
     TimePickerDialog.OnTimeSetListener timeSetListener;
+
+    TextView date;
+    TextView time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,7 @@ public class SampleActivity extends AppCompatActivity {
         pref = getSharedPreferences("Storage", MODE_PRIVATE);
 
         checkValue = findViewById(R.id.tv_check);
-        checkValue.setText(emptyText);
+        checkValue.setText(R.string.empty_text);
 
         check = new Check(
                 pref.getLong(saveIdKey, 0),
@@ -65,8 +73,8 @@ public class SampleActivity extends AppCompatActivity {
         ConstraintLayout customLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.layout_custom, null);
 
         EditText number = customLayout.findViewById(R.id.number_dialog);
-        TextView date = customLayout.findViewById(R.id.date_dialog);
-        TextView time = customLayout.findViewById(R.id.time_dialog);
+        date = customLayout.findViewById(R.id.date_dialog);
+        time = customLayout.findViewById(R.id.time_dialog);
 
         builder.setView(customLayout);
 
@@ -75,7 +83,6 @@ public class SampleActivity extends AppCompatActivity {
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, day);
 
-            date.setText(dateFormat.format(calendar.getTime()));
         };
         timeSetListener = (timePicker, hour, minute) -> {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -84,7 +91,7 @@ public class SampleActivity extends AppCompatActivity {
             time.setText(timeFormat.format(calendar.getTime()));
         };
 
-        builder.setPositiveButton(positiveVar, (d, i) -> {
+        builder.setPositiveButton(getString(R.string.positive_variant), (d, i) -> {
             check = new Check(1L, number.getText().toString(), date.getText().toString(), time.getText().toString());
             checkValue.setText(check.getAllValues());
             pref.edit()
@@ -95,13 +102,14 @@ public class SampleActivity extends AppCompatActivity {
                     .putString(saveTimeKey, check.getTime())
                     .apply();
         });
-        builder.setNegativeButton(negativVar, (d, i) -> {
+        builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {
             //only close
         });
+        builder.setTitle(getString(R.string.new_dialog_title));
         builder.show();
 
-        time.setOnClickListener(view -> showTimeDialog());
         date.setOnClickListener(view -> showDateDialog());
+        time.setOnClickListener(view -> showTimeDialog());
     }
 
     private void showTimeDialog() {
@@ -116,6 +124,17 @@ public class SampleActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        new DatePickerDialog(this, dateSetListener, year, month, day).show();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
+        datePickerDialog.show();
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), new DialogInterface.OnClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                    datePickerDialog.setOnDateSetListener(dateSetListener);
+                    date.setText(dateFormat.format(calendar.getTime()));
+                    showTimeDialog();
+            }
+        });
+
     }
 }
