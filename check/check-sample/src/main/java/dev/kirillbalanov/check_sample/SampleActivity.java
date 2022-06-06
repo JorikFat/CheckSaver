@@ -1,25 +1,19 @@
 package dev.kirillbalanov.check_sample;
 
-import static dev.jorik.checksaver.core.Utils.*;
-
+import static dev.jorik.checksaver.core.Utils.dateFormat;
+import static dev.jorik.checksaver.core.Utils.timeFormat;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import java.util.Calendar;
-
 import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class SampleActivity extends AppCompatActivity {
@@ -36,8 +30,6 @@ public class SampleActivity extends AppCompatActivity {
     private Calendar calendar;
 
     private Check check;
-
-    Context context;
 
     DatePickerDialog.OnDateSetListener dateSetListener;
     TimePickerDialog.OnTimeSetListener timeSetListener;
@@ -87,7 +79,6 @@ public class SampleActivity extends AppCompatActivity {
         timeSetListener = (timePicker, hour, minute) -> {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
-
             time.setText(timeFormat.format(calendar.getTime()));
         };
 
@@ -116,7 +107,7 @@ public class SampleActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(this, timeSetListener, hour, minute, false).show();
+        new TimePickerDialog(this, timeSetListener, hour, minute, true).show();
     }
 
     private void showDateDialog(){
@@ -126,14 +117,12 @@ public class SampleActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
         datePickerDialog.show();
-        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), new DialogInterface.OnClickListener(){
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                    datePickerDialog.setOnDateSetListener(dateSetListener);
-                    date.setText(dateFormat.format(calendar.getTime()));
-                    showTimeDialog();
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), (dialogInterface, i) -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                datePickerDialog.setOnDateSetListener(dateSetListener);
             }
+            date.setText(dateFormat.format(calendar.getTime()));
+                showTimeDialog();
         });
 
     }
