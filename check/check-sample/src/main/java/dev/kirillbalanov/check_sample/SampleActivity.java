@@ -1,15 +1,13 @@
 package dev.kirillbalanov.check_sample;
 
-import static dev.jorik.checksaver.core.Utils.*;
-
+import static dev.jorik.checksaver.core.Utils.dateFormat;
+import static dev.jorik.checksaver.core.Utils.timeFormat;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,12 +15,19 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import dev.kirillbalanov.check_sample.model.ChecksAdapter;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class SampleActivity extends AppCompatActivity {
+
+    private ArrayList<Check> checks = new ArrayList<>();
+
     private SharedPreferences pref;
     private final String saveCheckKey = "save_check_key";
     private final String saveIdKey = "save_id_key";
@@ -30,14 +35,11 @@ public class SampleActivity extends AppCompatActivity {
     private final String saveDateKey = "save_date_key";
     private final String saveTimeKey = "save_time_key";
 
-    private TextView checkValue;
-
+//    private TextView checkValue;
 
     private Calendar calendar;
 
     private Check check;
-
-    Context context;
 
     DatePickerDialog.OnDateSetListener dateSetListener;
     TimePickerDialog.OnTimeSetListener timeSetListener;
@@ -45,6 +47,10 @@ public class SampleActivity extends AppCompatActivity {
     TextView date;
     TextView time;
 
+    RecyclerView checkRecycleList;
+    ChecksAdapter checksAdapter;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +58,28 @@ public class SampleActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("Storage", MODE_PRIVATE);
 
-        checkValue = findViewById(R.id.tv_check);
-        checkValue.setText(R.string.empty_text);
-
         check = new Check(
                 pref.getLong(saveIdKey, 0),
                 pref.getString(saveTotalKey, null),
                 pref.getString(saveDateKey, null),
                 pref.getString(saveTimeKey, null)
         );
+        checks.add(check);
+
+        checkRecycleList = findViewById(R.id.rc_check);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        checkRecycleList.setLayoutManager(linearLayout);
+        checkRecycleList.setHasFixedSize(true);
+        checksAdapter = new ChecksAdapter(checks);
+        checkRecycleList.setAdapter(checksAdapter);
+
 
         if (check.getTotal() == null && check.getDate() == null && check.getTime() == null) {
             myCustomDialog();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void myCustomDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -82,18 +95,15 @@ public class SampleActivity extends AppCompatActivity {
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, day);
-
         };
         timeSetListener = (timePicker, hour, minute) -> {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
             calendar.set(Calendar.MINUTE, minute);
-
-            time.setText(timeFormat.format(calendar.getTime()));
         };
 
         builder.setPositiveButton(getString(R.string.positive_variant), (d, i) -> {
             check = new Check(1L, number.getText().toString(), date.getText().toString(), time.getText().toString());
-            checkValue.setText(check.getAllValues());
+//            checkValue.setText(check.getAllValues());
             pref.edit()
                     .putString(saveCheckKey, check.getAllValues())
                     .putLong(saveIdKey, check.getId())
@@ -116,9 +126,11 @@ public class SampleActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(this, timeSetListener, hour, minute, false).show();
+        new TimePickerDialog(this, timeSetListener, hour, minute, true).show();
+        time.setText(timeFormat.format(calendar.getTime()));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void showDateDialog(){
         calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -126,15 +138,10 @@ public class SampleActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
         datePickerDialog.show();
-        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), new DialogInterface.OnClickListener(){
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                    datePickerDialog.setOnDateSetListener(dateSetListener);
-                    date.setText(dateFormat.format(calendar.getTime()));
-                    showTimeDialog();
-            }
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), (dialogInterface, i) -> {
+            datePickerDialog.setOnDateSetListener(dateSetListener);
+            date.setText(dateFormat.format(calendar.getTime()));
+            showTimeDialog();
         });
-
     }
 }
