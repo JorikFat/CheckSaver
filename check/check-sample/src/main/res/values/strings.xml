@@ -7,5 +7,6 @@
     <string name="negative_variant">Cancel</string>
 
     <string name="new_dialog_title">Новый чек</string>
+    <string name="check_1">Check #1:</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package dev.kirillbalanov.check_sample.pojo;
 
-public class Check {
+import java.io.Serializable;
+
+public class Check implements Serializable {
 
     private long id;
     private String total;
