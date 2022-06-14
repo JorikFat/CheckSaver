@@ -18,7 +18,6 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     private ArrayList<Check> checks;
-    private int numberItems;
 
     public ChecksAdapter(ArrayList<Check> checks){
         this.checks = checks;
@@ -40,5 +39,4 @@ public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
     public int getItemCount() {
         return checks.size();
     }
-
 }

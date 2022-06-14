@@ -2,16 +2,16 @@ package dev.kirillbalanov.check_sample;
 
 import static dev.jorik.checksaver.core.Utils.dateFormat;
 import static dev.jorik.checksaver.core.Utils.timeFormat;
+
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,7 +26,7 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class SampleActivity extends AppCompatActivity {
 
-    private ArrayList<Check> checks = new ArrayList<>();
+    private final ArrayList<Check> checks = new ArrayList<>();
 
     private SharedPreferences pref;
     private final String saveCheckKey = "save_check_key";
@@ -34,8 +34,6 @@ public class SampleActivity extends AppCompatActivity {
     private final String saveTotalKey = "save_total_key";
     private final String saveDateKey = "save_date_key";
     private final String saveTimeKey = "save_time_key";
-
-//    private TextView checkValue;
 
     private Calendar calendar;
 
@@ -50,7 +48,6 @@ public class SampleActivity extends AppCompatActivity {
     RecyclerView checkRecycleList;
     ChecksAdapter checksAdapter;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +61,8 @@ public class SampleActivity extends AppCompatActivity {
                 pref.getString(saveDateKey, null),
                 pref.getString(saveTimeKey, null)
         );
-        checks.add(check);
 
+        checks.add(check);
         checkRecycleList = findViewById(R.id.rc_check);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         checkRecycleList.setLayoutManager(linearLayout);
@@ -73,13 +70,11 @@ public class SampleActivity extends AppCompatActivity {
         checksAdapter = new ChecksAdapter(checks);
         checkRecycleList.setAdapter(checksAdapter);
 
-
         if (check.getTotal() == null && check.getDate() == null && check.getTime() == null) {
             myCustomDialog();
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void myCustomDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -103,7 +98,7 @@ public class SampleActivity extends AppCompatActivity {
 
         builder.setPositiveButton(getString(R.string.positive_variant), (d, i) -> {
             check = new Check(1L, number.getText().toString(), date.getText().toString(), time.getText().toString());
-//            checkValue.setText(check.getAllValues());
+            checks.add(check);
             pref.edit()
                     .putString(saveCheckKey, check.getAllValues())
                     .putLong(saveIdKey, check.getId())
@@ -111,12 +106,14 @@ public class SampleActivity extends AppCompatActivity {
                     .putString(saveDateKey, check.getDate())
                     .putString(saveTimeKey, check.getTime())
                     .apply();
+            recreate(); //reload activity for start OnCreate again
         });
         builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {
             //only close
         });
         builder.setTitle(getString(R.string.new_dialog_title));
         builder.show();
+
 
         date.setOnClickListener(view -> showDateDialog());
         time.setOnClickListener(view -> showTimeDialog());
@@ -130,7 +127,7 @@ public class SampleActivity extends AppCompatActivity {
         time.setText(timeFormat.format(calendar.getTime()));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("NewApi")
     private void showDateDialog(){
         calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
