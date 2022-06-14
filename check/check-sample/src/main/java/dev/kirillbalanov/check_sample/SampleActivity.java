@@ -26,7 +26,7 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class SampleActivity extends AppCompatActivity {
 
-    private final ArrayList<Check> checks = new ArrayList<>();
+    private final ArrayList<Check> checks = new ArrayList<>();//todo не надо хранить список чеков в Acitivity, они должны быть только в RecyclerView.Adapter
 
     private SharedPreferences pref;
     private final String saveCheckKey = "save_check_key";
@@ -106,11 +106,13 @@ public class SampleActivity extends AppCompatActivity {
                     .putString(saveDateKey, check.getDate())
                     .putString(saveTimeKey, check.getTime())
                     .apply();
+            /*
+            todo не надо вызывать recrete() | recreate() вызывается только, когда изменилась конфигурация
+            todo нужно класть данные в Preferences, и отображать их
+            */
             recreate(); //reload activity for start OnCreate again
         });
-        builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {
-            //only close
-        });
+        builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {/*only close*/});
         builder.setTitle(getString(R.string.new_dialog_title));
         builder.show();
 
@@ -124,10 +126,10 @@ public class SampleActivity extends AppCompatActivity {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         new TimePickerDialog(this, timeSetListener, hour, minute, true).show();
-        time.setText(timeFormat.format(calendar.getTime()));
+        time.setText(timeFormat.format(calendar.getTime()));//todo отображается текущая дата, даже если закрыть timePicker
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint("NewApi")//todo не нужно ограничивать работу на разных устройствах
     private void showDateDialog(){
         calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -135,10 +137,10 @@ public class SampleActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
         datePickerDialog.show();
-        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), (dialogInterface, i) -> {
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.positive_variant), (dialogInterface, i) -> {//todo второй раз переопределяется кнопка выбора даты
             datePickerDialog.setOnDateSetListener(dateSetListener);
             date.setText(dateFormat.format(calendar.getTime()));
-            showTimeDialog();
+            showTimeDialog();//todo вызывать открытие timePicker'а в самом datePickerListener
         });
     }
 }
