@@ -1,10 +1,8 @@
 package dev.kirillbalanov.check_sample.model;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +15,8 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
-    private ArrayList<Check> checks;
-
-    public ChecksAdapter(ArrayList<Check> checks){
-        this.checks = checks;
-    }
+    private final List<Check> checks = new ArrayList<>();
+    Check currentCheck;
 
     @NonNull
     @Override
@@ -31,12 +26,21 @@ public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        Check check = checks.get(position);
-        holder.checkValue.setText(check.getAllValues());
+        currentCheck = checks.get(position);
+        holder.checkValue.setText(currentCheck.getAllValues());
     }
 
     @Override
     public int getItemCount() {
         return checks.size();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void addChecks(Check check){
+        if(check.getTotal() != null && check.getDate() != null && check.getTime() != null) {
+            currentCheck = check;
+            checks.add(currentCheck);
+            notifyDataSetChanged();
+        }
     }
 }

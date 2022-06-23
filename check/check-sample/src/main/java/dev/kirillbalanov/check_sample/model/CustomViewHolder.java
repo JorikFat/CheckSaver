@@ -15,6 +15,5 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
     public CustomViewHolder(@NonNull View itemView) {
         super(itemView);
         checkValue = itemView.findViewById(R.id.tv_check);
-        checkValue.setText(R.string.empty_text);//todo не надо отображать "текст заглушку". Если чеков нет - будет пустой экран
     }
 }
