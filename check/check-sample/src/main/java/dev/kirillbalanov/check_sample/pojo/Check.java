@@ -16,7 +16,6 @@ public class Check implements Serializable {
         this.time = time;
     }
 
-
     public long getId() {
         return id;
     }
