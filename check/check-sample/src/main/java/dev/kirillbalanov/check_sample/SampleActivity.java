@@ -54,6 +54,7 @@ public class SampleActivity extends AppCompatActivity {
         );
 
         checksAdapter = new ChecksAdapter();
+        if(check.getTotal() != null && check.getDate() != null && check.getTime() != null)
         checksAdapter.addChecks(check);
 
         checkRecycleList = findViewById(R.id.rc_check);
@@ -100,7 +101,7 @@ public class SampleActivity extends AppCompatActivity {
                     .putString(saveDateKey, check.getDate())
                     .putString(saveTimeKey, check.getTime())
                     .apply();
-
+            if(check.getTotal() != null && check.getDate() != null && check.getTime() != null)
             checksAdapter.addChecks(check);
         });
         builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {/*only close*/});
