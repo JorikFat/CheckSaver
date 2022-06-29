@@ -16,6 +16,10 @@ public class Check implements Serializable {
         this.time = time;
     }
 
+    public boolean isValid(){
+        return getTotal() != null && getDate() != null && getTime() != null;
+    }
+
     public long getId() {
         return id;
     }

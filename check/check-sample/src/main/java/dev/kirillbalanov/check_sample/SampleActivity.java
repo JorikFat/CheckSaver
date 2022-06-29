@@ -4,7 +4,6 @@ import static dev.jorik.checksaver.core.Utils.dateFormat;
 import static dev.jorik.checksaver.core.Utils.timeFormat;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,16 +18,9 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class SampleActivity extends AppCompatActivity {
 
-    private SharedPreferences pref;
-    private final String saveCheckKey = "save_check_key";
-    private final String saveIdKey = "save_id_key";
-    private final String saveTotalKey = "save_total_key";
-    private final String saveDateKey = "save_date_key";
-    private final String saveTimeKey = "save_time_key";
+    private Config config;
 
     private final Calendar calendar = Calendar.getInstance();
-
-    private Check check;
 
     DatePickerDialog.OnDateSetListener dateSetListener;
     TimePickerDialog.OnTimeSetListener timeSetListener;
@@ -44,28 +36,20 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        pref = getSharedPreferences("Storage", MODE_PRIVATE);
+        config = new Config(getSharedPreferences("Storage", MODE_PRIVATE));
 
-        check = new Check(
-                pref.getLong(saveIdKey, 0),
-                pref.getString(saveTotalKey, null),
-                pref.getString(saveDateKey, null),
-                pref.getString(saveTimeKey, null)
-        );
+        Check check = config.readCheck();
 
         checksAdapter = new ChecksAdapter();
-        if(check.getTotal() != null && check.getDate() != null && check.getTime() != null)
+        if(check !=null && check.isValid())
         checksAdapter.addChecks(check);
+        else myCustomDialog();
 
         checkRecycleList = findViewById(R.id.rc_check);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         checkRecycleList.setLayoutManager(linearLayout);
         checkRecycleList.setHasFixedSize(true);
         checkRecycleList.setAdapter(checksAdapter);
-
-        if (check.getTotal() == null && check.getDate() == null && check.getTime() == null) {
-            myCustomDialog();
-        }
     }
 
     private void myCustomDialog() {
@@ -93,21 +77,15 @@ public class SampleActivity extends AppCompatActivity {
         };
 
         builder.setPositiveButton(getString(R.string.positive_variant), (d, i) -> {
-            check = new Check(1, number.getText().toString(), date.getText().toString(), time.getText().toString());
-            pref.edit()
-                    .putString(saveCheckKey, check.getAllValues())
-                    .putLong(saveIdKey, check.getId())
-                    .putString(saveTotalKey, check.getTotal())
-                    .putString(saveDateKey, check.getDate())
-                    .putString(saveTimeKey, check.getTime())
-                    .apply();
-            if(check.getTotal() != null && check.getDate() != null && check.getTime() != null)
-            checksAdapter.addChecks(check);
+            Check check = new Check(1, number.getText().toString(), date.getText().toString(), time.getText().toString());
+            if(check.isValid()) {
+                config.saveCheck(check);
+                checksAdapter.addChecks(check);
+            }
         });
         builder.setNegativeButton(getString(R.string.negative_variant), (d, i) -> {/*only close*/});
         builder.setTitle(getString(R.string.new_dialog_title));
         builder.show();
-
 
         date.setOnClickListener(view -> showDateDialog());
         time.setOnClickListener(view -> showTimeDialog());
