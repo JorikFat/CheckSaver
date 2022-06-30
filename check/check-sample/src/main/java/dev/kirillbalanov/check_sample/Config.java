@@ -35,5 +35,4 @@ public class Config {
                 sharedPreferences.getString(saveTimeKey, null)
         );
     }
-
 }
