@@ -1,4 +1,4 @@
-package dev.kirillbalanov.check_sample;
+package dev.kirillbalanov.check_sample.model;
 
 import android.content.SharedPreferences;
 

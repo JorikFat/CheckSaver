@@ -15,7 +15,7 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
-    private final List<Check> checks = new ArrayList<>();
+    private List<Check> checks = new ArrayList<>();
 
     @NonNull
     @Override
@@ -34,8 +34,8 @@ public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addChecks(Check check){
-            checks.add(check);
+    public void addChecks(List<Check> checks){
+            this.checks = checks;
             notifyDataSetChanged();
     }
 }

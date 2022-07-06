@@ -1,12 +1,27 @@
 package dev.kirillbalanov.check_sample.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
-public class Check implements Serializable {
-
+@Entity
+public class Check implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
     private long id;
+
+    @ColumnInfo(name = "total")
     private String total;
+
+    @ColumnInfo(name = "date")
     private String date;
+
+    @ColumnInfo(name = "time")
     private String time;
 
     public Check(long id, String total, String date, String time) {
@@ -15,6 +30,25 @@ public class Check implements Serializable {
         this.date = date;
         this.time = time;
     }
+
+    protected Check(Parcel in) {
+        id = in.readLong();
+        total = in.readString();
+        date = in.readString();
+        time = in.readString();
+    }
+
+    public static final Creator<Check> CREATOR = new Creator<Check>() {
+        @Override
+        public Check createFromParcel(Parcel in) {
+            return new Check(in);
+        }
+
+        @Override
+        public Check[] newArray(int size) {
+            return new Check[size];
+        }
+    };
 
     public boolean isValid(){
         return getTotal() != null && getDate() != null && getTime() != null;
@@ -76,5 +110,18 @@ public class Check implements Serializable {
 
     public String getAllValues(){
         return "Summary: " + getTotal() + " Date: " + getDate() + " Time: " + getTime();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(total);
+        parcel.writeString(date);
+        parcel.writeString(time);
     }
 }

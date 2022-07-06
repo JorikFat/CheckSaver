@@ -1,4 +1,4 @@
-package dev.kirillbalanov.check_sample;
+package dev.kirillbalanov.check_sample.model;
 
 import static dev.jorik.checksaver.core.Utils.dateFormat;
 import static dev.jorik.checksaver.core.Utils.timeFormat;
@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Calendar;
 
+import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class CreateCheckDialog extends AlertDialog {
@@ -71,7 +72,7 @@ public class CreateCheckDialog extends AlertDialog {
         this.createCallback = createCallback;
     }
 
-    interface Callback{
+    public interface Callback {
         void created(Check check);
     }
 
