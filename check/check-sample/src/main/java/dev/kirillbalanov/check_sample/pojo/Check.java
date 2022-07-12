@@ -2,15 +2,11 @@ package dev.kirillbalanov.check_sample.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import java.io.Serializable;
 
-@Entity
+@Entity(tableName = "checks")
 public class Check implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private long id;

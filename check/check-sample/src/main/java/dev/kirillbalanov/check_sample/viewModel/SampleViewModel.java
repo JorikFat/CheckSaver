@@ -1,28 +1,60 @@
 package dev.kirillbalanov.check_sample.viewModel;
 
+import android.app.Application;
 import android.content.Context;
-
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
+import android.os.AsyncTask;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import java.util.ArrayList;
 import java.util.List;
-
+import dev.kirillbalanov.check_sample.db.AppDateBase;
 import dev.kirillbalanov.check_sample.model.ChecksAdapter;
-import dev.kirillbalanov.check_sample.model.Config;
 import dev.kirillbalanov.check_sample.model.CreateCheckDialog;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
-public class SampleViewModel extends ViewModel {
-    public final MutableLiveData<List<Check>> checksData = new MutableLiveData<>();
+public class SampleViewModel extends AndroidViewModel {
 
-    public void myCustomDialog(Context context, ChecksAdapter checksAdapter, Config config) {
-        new CreateCheckDialog(context, new CreateCheckDialog.Callback() {
-            @Override
-            public void created(Check check) {
-                checksAdapter.addChecks(checksData.getValue());
-                config.saveCheck(check);
-            }
-        }).show();
+    private List<Check> checks = new ArrayList<>();
+
+    private static AppDateBase db;
+
+    private LiveData<List<Check>> checksData;
+    public LiveData<List<Check>> getChecksData() {
+        return checksData;
     }
 
+    public SampleViewModel(@NonNull Application application) {
+        super(application);
+        db = AppDateBase.getInstance(application);
+        checksData = db.checksDao().getAllChecks();
+    }
+
+    public Boolean getCheck(){
+        return checks.isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void insertChecks(Check check){
+        checks.add(check);
+        new InsertChecksTask().execute(checks);
+    }
+
+    private static class InsertChecksTask extends AsyncTask<List<Check>, Void, Void> {
+        @SafeVarargs
+        @Override
+        protected final Void doInBackground(List<Check>... lists) {
+            if(lists !=null && lists.length > 0) {
+                db.checksDao().insertChecks(lists[0]);
+            }
+            return null;
+        }
+    }
+
+    public void myCustomDialog(Context context, ChecksAdapter checksAdapter) {
+        new CreateCheckDialog(context, check -> {
+            insertChecks(check);
+            checksAdapter.addChecks(checks);
+        }).show();
+    }
 }

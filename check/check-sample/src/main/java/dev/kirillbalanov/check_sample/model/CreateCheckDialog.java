@@ -10,11 +10,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import java.util.Calendar;
-
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
