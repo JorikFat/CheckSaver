@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import java.util.ArrayList;
 import java.util.List;
+
+import dev.kirillbalanov.check_sample.App;
 import dev.kirillbalanov.check_sample.db.AppDateBase;
 import dev.kirillbalanov.check_sample.model.ChecksAdapter;
 import dev.kirillbalanov.check_sample.model.CreateCheckDialog;
@@ -26,7 +28,7 @@ public class SampleViewModel extends AndroidViewModel {
 
     public SampleViewModel(@NonNull Application application) {
         super(application);
-        db = AppDateBase.getInstance(application);
+        db = App.getAppDateBase();
         checksData = db.checksDao().getAllChecks();
     }
 
