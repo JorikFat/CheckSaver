@@ -15,7 +15,7 @@ public interface ChecksDao {
     LiveData<List<Check>> getAllChecks();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertChecks(List<Check> check);
+    void insertCheck(Check check);
 
     @Query("DELETE FROM checks")
     void deleteAllChecks();

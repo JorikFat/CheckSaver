@@ -3,13 +3,10 @@ package dev.kirillbalanov.check_sample.model;
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.pojo.Check;
 

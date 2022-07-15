@@ -8,6 +8,5 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 @Database(entities = {Check.class}, version = 1, exportSchema = false)
 public abstract class AppDateBase extends RoomDatabase{
 
-
     public abstract ChecksDao checksDao();
 }

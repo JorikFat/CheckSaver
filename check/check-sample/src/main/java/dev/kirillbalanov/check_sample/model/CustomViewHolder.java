@@ -2,10 +2,8 @@ package dev.kirillbalanov.check_sample.model;
 
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import dev.kirillbalanov.check_sample.R;
 
 public class CustomViewHolder extends RecyclerView.ViewHolder {
