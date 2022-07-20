@@ -22,11 +22,12 @@ public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.checkValue.setText(checks.get(position).getAllValues());
+        if (checks.get(position).isValid()) holder.checkValue.setText(checks.get(position).getAllValues());
     }
 
     @Override
     public int getItemCount() {
+        if (checks == null) return 0;
         return checks.size();
     }
 

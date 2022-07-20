@@ -26,7 +26,7 @@ public class CreateCheckDialog extends AlertDialog {
 
     private final Calendar calendar = Calendar.getInstance();
 
-    int idCheck = 1;
+    int idCheck = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +56,8 @@ public class CreateCheckDialog extends AlertDialog {
             Check check = new Check(idCheck, number.getText().toString(), date.getText().toString(), time.getText().toString());
             if(check.isValid()) {
                 createCallback.created(check);
+                idCheck++;
             }
-            idCheck++;
         });
         setButton(BUTTON_NEGATIVE, getContext().getString(R.string.negative_variant), (d, i) -> {/*only close*/});
         setTitle(getContext().getString(R.string.new_dialog_title));

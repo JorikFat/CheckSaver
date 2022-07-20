@@ -47,7 +47,7 @@ public class Check implements Parcelable {
     };
 
     public boolean isValid(){
-        return getTotal() != null && getDate() != null && getTime() != null;
+        return !getTotal().isEmpty() && !getDate().isEmpty() && !getTime().isEmpty();
     }
 
     public long getId() {

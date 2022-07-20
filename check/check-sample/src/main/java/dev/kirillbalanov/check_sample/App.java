@@ -1,9 +1,7 @@
 package dev.kirillbalanov.check_sample;
 
 import android.app.Application;
-
 import androidx.room.Room;
-
 import dev.kirillbalanov.check_sample.db.AppDateBase;
 
 public class App extends Application {
