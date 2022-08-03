@@ -27,12 +27,11 @@ public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (checks == null) return 0;
         return checks.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addChecks(List<Check> checks){
+    public void setChecks(List<Check> checks){
             this.checks = checks;
             notifyDataSetChanged();
     }

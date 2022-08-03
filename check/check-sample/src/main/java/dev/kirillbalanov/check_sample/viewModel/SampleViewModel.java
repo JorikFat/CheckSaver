@@ -1,15 +1,13 @@
 package dev.kirillbalanov.check_sample.viewModel;
 
-import android.app.Application;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 import java.util.List;
 import dev.kirillbalanov.check_sample.App;
 import dev.kirillbalanov.check_sample.db.AppDateBase;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
-public class SampleViewModel extends AndroidViewModel {
+public class SampleViewModel extends ViewModel {
 
     private static AppDateBase db;
 
@@ -18,8 +16,7 @@ public class SampleViewModel extends AndroidViewModel {
         return checksData;
     }
 
-    public SampleViewModel(@NonNull Application application) {
-        super(application);
+    public SampleViewModel() {
         db = App.getAppDateBase();
         checksData = db.checksDao().getAllChecks();
     }
