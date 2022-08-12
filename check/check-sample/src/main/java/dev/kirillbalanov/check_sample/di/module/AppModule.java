@@ -1,14 +1,11 @@
 package dev.kirillbalanov.check_sample.di.module;
 
 import android.content.Context;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.room.Room;
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dev.kirillbalanov.check_sample.db.AppDateBase;
-import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
 
 @Module
 public class AppModule {
@@ -22,17 +19,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public Context provideContext(){
-        return this.context;
-    }
-
-    public AppDateBase getDataBase(){
+    public AppDateBase provideDataBase(){
         return appDateBase = Room.databaseBuilder(context, AppDateBase.class, DB_NAME).build();
-    }
-
-    @Provides
-    @Singleton
-    public SampleViewModel getViewModel(){
-        return new ViewModelProvider((ViewModelStoreOwner) context).get(SampleViewModel.class);
     }
 }

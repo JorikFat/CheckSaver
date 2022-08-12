@@ -14,9 +14,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = DaggerAppComponent.create();
-
-        appDateBase = new AppModule(this).getDataBase();
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+        appDateBase = appComponent.getDateBase();
     }
 
     public static AppComponent getAppComponent() {

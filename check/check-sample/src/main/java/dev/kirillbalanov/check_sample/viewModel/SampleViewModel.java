@@ -17,7 +17,7 @@ public class SampleViewModel extends ViewModel {
     }
 
     public SampleViewModel() {
-        db = App.getAppDateBase();
+        db = App.getAppComponent().getDateBase();
         checksData = db.checksDao().getAllChecks();
     }
 

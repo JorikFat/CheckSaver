@@ -1,10 +1,12 @@
 package dev.kirillbalanov.check_sample.di.components;
 
+import javax.inject.Singleton;
 import dagger.Component;
+import dev.kirillbalanov.check_sample.db.AppDateBase;
 import dev.kirillbalanov.check_sample.di.module.AppModule;
-import dev.kirillbalanov.check_sample.view.SampleActivity;
 
+@Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
-    void inject(SampleActivity sampleActivity);
+    AppDateBase getDateBase();
 }
