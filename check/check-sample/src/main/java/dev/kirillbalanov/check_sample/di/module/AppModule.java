@@ -5,7 +5,7 @@ import androidx.room.Room;
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
-import dev.kirillbalanov.check_sample.db.AppDateBase;
+import dev.kirillbalanov.check_sample.db.AppDataBase;
 
 @Module
 public class AppModule {
@@ -18,7 +18,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public AppDateBase provideDataBase(){
-        return Room.databaseBuilder(context, AppDateBase.class, DB_NAME).build();
+    public AppDataBase provideDataBase(){
+        return Room.databaseBuilder(context, AppDataBase.class, DB_NAME).build();
     }
 }

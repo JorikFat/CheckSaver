@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
+
+import dev.kirillbalanov.check_sample.App;
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.model.ChecksAdapter;
 import dev.kirillbalanov.check_sample.model.CreateCheckDialog;
@@ -18,13 +20,13 @@ public class SampleActivity extends AppCompatActivity {
     private ChecksAdapter checksAdapter;
     private SampleViewModel viewModel;
 
-    View addCheckBtn;
+    private View addCheckBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        viewModel = new ViewModelProvider(this, SampleViewModelFactory.getDataBase()).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this, new SampleViewModelFactory(App.getAppComponent().getDateBase())).get(SampleViewModel.class);
 
         addCheckBtn = findViewById(R.id.btn_add);
         addCheckBtn.setOnClickListener(view -> myCustomDialog());

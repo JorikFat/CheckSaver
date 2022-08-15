@@ -4,18 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import dev.kirillbalanov.check_sample.App;
+import dev.kirillbalanov.check_sample.db.AppDataBase;
 
 public class SampleViewModelFactory implements ViewModelProvider.Factory {
 
-    public static SampleViewModelFactory getDataBase() {
-        synchronized(SampleViewModelFactory.class){
-            return new SampleViewModelFactory();
-        }
+    private AppDataBase appDataBase;
+
+    public SampleViewModelFactory(AppDataBase appDataBase) {
+        this.appDataBase = appDataBase;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new SampleViewModel(App.getAppComponent().getDateBase());
+            return (T) new SampleViewModel(appDataBase);
     }
 }
