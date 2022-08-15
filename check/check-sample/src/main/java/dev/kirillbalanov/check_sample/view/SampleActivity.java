@@ -24,7 +24,7 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        viewModel = new ViewModelProvider(this, SampleViewModelFactory.getInstance()).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this, SampleViewModelFactory.getDataBase()).get(SampleViewModel.class);
 
         addCheckBtn = findViewById(R.id.btn_add);
         addCheckBtn.setOnClickListener(view -> myCustomDialog());

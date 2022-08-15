@@ -10,7 +10,6 @@ import dev.kirillbalanov.check_sample.db.AppDateBase;
 @Module
 public class AppModule {
     private Context context;
-    private static AppDateBase appDateBase;
     public static final String DB_NAME = "checks.db";
 
     public AppModule(Context context) {
@@ -20,6 +19,6 @@ public class AppModule {
     @Provides
     @Singleton
     public AppDateBase provideDataBase(){
-        return appDateBase = Room.databaseBuilder(context, AppDateBase.class, DB_NAME).build();
+        return Room.databaseBuilder(context, AppDateBase.class, DB_NAME).build();
     }
 }
