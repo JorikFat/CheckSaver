@@ -10,7 +10,7 @@ import java.util.List;
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
-public class ChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
+public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     private List<Check> checks = new ArrayList<>();
 
