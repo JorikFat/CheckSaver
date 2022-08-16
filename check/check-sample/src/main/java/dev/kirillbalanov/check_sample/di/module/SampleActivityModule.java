@@ -3,12 +3,10 @@ package dev.kirillbalanov.check_sample.di.module;
 import android.content.Context;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import dev.kirillbalanov.check_sample.App;
+import dev.kirillbalanov.check_sample.di.components.scope.ActivityScope;
 import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
 import dev.kirillbalanov.check_sample.viewModel.SampleViewModelFactory;
 
@@ -21,7 +19,7 @@ public class SampleActivityModule {
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     public SampleViewModel provideViewModel(){
         return new ViewModelProvider((ViewModelStoreOwner) context, new SampleViewModelFactory(App.getAppComponent().getDateBase())).get(SampleViewModel.class);
     }

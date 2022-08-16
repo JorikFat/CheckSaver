@@ -8,9 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import javax.inject.Inject;
 import dev.kirillbalanov.check_sample.App;
 import dev.kirillbalanov.check_sample.R;
-import dev.kirillbalanov.check_sample.di.components.DaggerSampleActivityComponent;
-import dev.kirillbalanov.check_sample.di.components.SampleActivityComponent;
-import dev.kirillbalanov.check_sample.di.module.SampleActivityModule;
 import dev.kirillbalanov.check_sample.model.RecycleChecksAdapter;
 import dev.kirillbalanov.check_sample.model.CreateCheckDialog;
 import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
@@ -19,20 +16,16 @@ public class SampleActivity extends AppCompatActivity {
 
     private RecyclerView checkRecycleView;
     private RecycleChecksAdapter checksRecycleAdapter;
-
     @Inject
     public SampleViewModel viewModel;
-
-    private static SampleActivityComponent activityComponent;
 
     private View addCheckBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
-//        activityComponent = App.getAppComponent().createActivityComponent(new SampleActivityModule(this)); создаю сабкомпонент
-        activityComponent = DaggerSampleActivityComponent.builder().sampleActivityModule(new SampleActivityModule(this)).build();
-        activityComponent.injectSampleActivity(this);
+
+        App.initSampleActivityComponent(this).injectSampleActivity(this);
 
         addCheckBtn = findViewById(R.id.btn_add);
         addCheckBtn.setOnClickListener(view -> myCustomDialog());

@@ -10,5 +10,5 @@ import dev.kirillbalanov.check_sample.di.module.SampleActivityModule;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     AppDataBase getDateBase();
-//    SampleActivityComponent createActivityComponent(SampleActivityModule activityModule);  создаю сабкомпонент
+    SampleActivityComponent createActivityComponent(SampleActivityModule activityModule);
 }

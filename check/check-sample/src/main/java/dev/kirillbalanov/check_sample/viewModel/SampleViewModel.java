@@ -3,7 +3,6 @@ package dev.kirillbalanov.check_sample.viewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import java.util.List;
-
 import dev.kirillbalanov.check_sample.db.AppDataBase;
 import dev.kirillbalanov.check_sample.pojo.Check;
 
