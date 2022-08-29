@@ -14,12 +14,12 @@ import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
 
 public class SampleActivity extends AppCompatActivity {
 
-    private RecyclerView checkRecycleView;
+    private RecyclerView checkRecycleView;//todo убрать поле
     private RecycleChecksAdapter checksRecycleAdapter;
     @Inject
     public SampleViewModel viewModel;
 
-    private View addCheckBtn;
+    private View addCheckBtn;//todo убрать поле
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

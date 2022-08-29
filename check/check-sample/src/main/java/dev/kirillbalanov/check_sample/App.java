@@ -18,6 +18,7 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
     }
 
+    //todo перенести логику работы с Activity в нее же
     public static SampleActivityComponent initSampleActivityComponent(SampleActivity sampleActivity) {
         return appComponent.createActivityComponent(new SampleActivityModule(sampleActivity));
     }
