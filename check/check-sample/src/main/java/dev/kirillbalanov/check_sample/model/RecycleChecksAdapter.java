@@ -2,6 +2,7 @@ package dev.kirillbalanov.check_sample.model;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +22,15 @@ public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (checks.get(position).isValid()) holder.checkValue.setText(checks.get(position).getAllValues());
+        holder.deleteCheckBtn.setOnClickListener(view -> deleteItem(position));
+        holder.editCheckBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -34,5 +42,15 @@ public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder>
     public void setChecks(List<Check> checks){
             this.checks = checks;
             notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void deleteItem(int position){
+        checks.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void editItem(int position){
+
     }
 }
