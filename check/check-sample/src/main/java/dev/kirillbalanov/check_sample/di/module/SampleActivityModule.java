@@ -1,10 +1,8 @@
 package dev.kirillbalanov.check_sample.di.module;
 
 import android.content.Context;
-
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-
 import dagger.Module;
 import dagger.Provides;
 import dev.kirillbalanov.check_sample.App;

@@ -34,7 +34,7 @@ public class SampleActivity extends AppCompatActivity {
 
         viewModel.getChecksData().observe(this, checks -> {
             if (checks.isEmpty()) myCustomDialog();
-            checksRecycleAdapter.setChecks(checks);
+            checksRecycleAdapter.setChecks(this, checks);
         });
 
         checkRecycleView = findViewById(R.id.rc_check);

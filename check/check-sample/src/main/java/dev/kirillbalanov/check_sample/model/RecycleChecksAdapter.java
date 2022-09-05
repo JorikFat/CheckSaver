@@ -1,12 +1,16 @@
 package dev.kirillbalanov.check_sample.model;
 
+import static dev.jorik.checksaver.core.Utils.dateFormat;
+import static dev.kirillbalanov.check_sample.pojo.Check.longToCalendar;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.pojo.Check;
@@ -14,6 +18,7 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     private List<Check> checks = new ArrayList<>();
+    private Context context;
 
     @NonNull
     @Override
@@ -23,14 +28,9 @@ public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        if (checks.get(position).isValid()) holder.checkValue.setText(checks.get(position).getAllValues());
+        if (checks.get(position).isValid()) holder.checkValue.setText(checks.get(position).toString());
         holder.deleteCheckBtn.setOnClickListener(view -> deleteItem(position));
-        holder.editCheckBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        holder.editCheckBtn.setOnClickListener(view -> editItem(position));
     }
 
     @Override
@@ -39,18 +39,26 @@ public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder>
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setChecks(List<Check> checks){
-            this.checks = checks;
-            notifyDataSetChanged();
+    public void setChecks(Context context, List<Check> checks){
+        this.context = context;
+        this.checks = checks;
+        notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void deleteItem(int position){
+    public void deleteItem( int position){
         checks.remove(position);
         notifyDataSetChanged();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void editItem(int position){
-
+        Long time = checks.get(position).getDataCalendarInLong();
+        Calendar calendar = longToCalendar(time);
+        new CreateCheckDialog(context, calendar, checks.get(position), check -> {
+            checks.remove(position);
+            checks.add(position,check);
+            notifyDataSetChanged();
+        }).show();
     }
 }
