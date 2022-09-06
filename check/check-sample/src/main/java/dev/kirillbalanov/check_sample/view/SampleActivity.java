@@ -1,43 +1,37 @@
 package dev.kirillbalanov.check_sample.view;
 
+import static dev.kirillbalanov.check_sample.App.getAppComponent;
 import android.os.Bundle;
-import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import javax.inject.Inject;
-import dev.kirillbalanov.check_sample.App;
 import dev.kirillbalanov.check_sample.R;
+import dev.kirillbalanov.check_sample.di.module.SampleActivityModule;
 import dev.kirillbalanov.check_sample.model.RecycleChecksAdapter;
 import dev.kirillbalanov.check_sample.model.CreateCheckDialog;
 import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
 
 public class SampleActivity extends AppCompatActivity {
-
-    private RecyclerView checkRecycleView;//todo убрать поле
-    private RecycleChecksAdapter checksRecycleAdapter;
     @Inject
     public SampleViewModel viewModel;
-
-    private View addCheckBtn;//todo убрать поле
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        App.initSampleActivityComponent(this).injectSampleActivity(this);
+        getAppComponent().createActivityComponent(new SampleActivityModule(this)).injectSampleActivity(this);
 
-        addCheckBtn = findViewById(R.id.btn_add);
-        addCheckBtn.setOnClickListener(view -> myCustomDialog());
+        findViewById(R.id.btn_add).setOnClickListener(view -> myCustomDialog());
 
-        checksRecycleAdapter = new RecycleChecksAdapter();
+        RecycleChecksAdapter checksRecycleAdapter = new RecycleChecksAdapter();
 
         viewModel.getChecksData().observe(this, checks -> {
             if (checks.isEmpty()) myCustomDialog();
             checksRecycleAdapter.setChecks(this, checks);
         });
 
-        checkRecycleView = findViewById(R.id.rc_check);
+        RecyclerView checkRecycleView = findViewById(R.id.rc_check);
         checkRecycleView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL)); //разделение между итемами
         checkRecycleView.setHasFixedSize(true);
         checkRecycleView.setAdapter(checksRecycleAdapter);

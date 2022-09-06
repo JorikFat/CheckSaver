@@ -1,10 +1,8 @@
 package dev.kirillbalanov.check_sample.model;
 
-import static dev.jorik.checksaver.core.Utils.dateFormat;
 import static dev.kirillbalanov.check_sample.pojo.Check.longToCalendar;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
