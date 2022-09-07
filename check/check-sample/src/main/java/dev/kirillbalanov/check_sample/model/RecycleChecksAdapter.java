@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.pojo.Check;
+import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
 
 public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
@@ -45,6 +46,7 @@ public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder>
 
     @SuppressLint("NotifyDataSetChanged")
     public void deleteItem( int position){
+        SampleViewModel.deleteCheck(checks.get(position));
         checks.remove(position);
         notifyDataSetChanged();
     }
