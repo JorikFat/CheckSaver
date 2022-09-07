@@ -10,5 +10,4 @@ import dev.kirillbalanov.check_sample.view.SampleActivity;
 @Subcomponent(modules = {SampleActivityModule.class})
 public interface SampleActivityComponent {
     void injectSampleActivity(SampleActivity sampleActivity);
-    AppDataBase getDateBase();
 }

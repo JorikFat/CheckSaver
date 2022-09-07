@@ -8,10 +8,10 @@ import dev.kirillbalanov.check_sample.pojo.Check;
 
 public class SampleViewModel extends ViewModel {
 
-    private static AppDataBase appDataBase;
+    private AppDataBase appDataBase;
 
     public SampleViewModel(AppDataBase appDateBase) {
-        appDataBase = appDateBase;
+        this.appDataBase = appDateBase;
     }
 
     public LiveData<List<Check>> getChecksData() {
@@ -22,7 +22,7 @@ public class SampleViewModel extends ViewModel {
         new Thread(() -> appDataBase.checksDao().insertCheck(check)).start();
     }
 
-    public static void deleteCheck(Check check){
+    public void deleteCheck(Check check){
         new Thread(() -> appDataBase.checksDao().delete(check)).start();
     }
 }
