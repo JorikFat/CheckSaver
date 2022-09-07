@@ -103,6 +103,7 @@ public class CreateCheckDialog extends AlertDialog {
     }
 
     private void showTimeDialog() {
+        calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeSetListener, hour, minute, true);
