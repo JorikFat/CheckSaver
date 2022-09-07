@@ -2,8 +2,6 @@ package dev.kirillbalanov.check_sample.pojo;
 
 import static dev.jorik.checksaver.core.Utils.dateFormat;
 import static dev.jorik.checksaver.core.Utils.timeFormat;
-import android.os.Parcel;
-import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -11,7 +9,7 @@ import androidx.room.PrimaryKey;
 import java.util.Calendar;
 
 @Entity(tableName = "checks")
-public class Check implements Parcelable {
+public class Check {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -69,33 +67,4 @@ public class Check implements Parcelable {
     }
 
     public Check(){}
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(id);
-        parcel.writeString(total);
-        parcel.writeLong(dataCalendarInLong);
-    }
-
-    protected Check(Parcel in) {
-        id = in.readLong();
-        total = in.readString();
-        dataCalendarInLong = in.readLong();
-    }
-
-    public static final Creator<Check> CREATOR = new Creator<Check>() {
-        @Override
-        public Check createFromParcel(Parcel in) {
-            return new Check(in);
-        }
-        @Override
-        public Check[] newArray(int size) {
-            return new Check[size];
-        }
-    };
 }
