@@ -24,7 +24,7 @@ public class CreateCheckDialog extends AlertDialog {
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
 
-    private Calendar calendar = null;
+    private Calendar calendar = Calendar.getInstance();
 
     Check check = null;
 
@@ -67,7 +67,7 @@ public class CreateCheckDialog extends AlertDialog {
                     check.setTotal(Float.valueOf(number.getText().toString()));
                     check.setCalendar(calendar);
                     createCallback.created(check);
-                } else if(!number.getText().toString().isEmpty() & calendar!=null){
+                } else if(!number.getText().toString().isEmpty()){
                     Check check = new Check(idCheck, Float.valueOf(number.getText().toString()), calendar);
                     if (check.isValid()) {
                         createCallback.created(check);
@@ -94,21 +94,17 @@ public class CreateCheckDialog extends AlertDialog {
     }
 
     private void showDateDialog(){
-        if(calendar==null) calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
-        setButton(BUTTON_POSITIVE, getContext().getString(R.string.positive_variant), (d, i) -> {calendar = null;});
         datePickerDialog.show();
     }
 
     private void showTimeDialog() {
-        if(calendar==null) calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeSetListener, hour, minute, true);
-        setButton(BUTTON_POSITIVE, getContext().getString(R.string.positive_variant), (d, i) -> {calendar = null;});
         timePickerDialog.show();
     }
 
