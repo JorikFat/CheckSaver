@@ -94,21 +94,21 @@ public class CreateCheckDialog extends AlertDialog {
     }
 
     private void showDateDialog(){
-        if(calendar==null) calendar = Calendar.getInstance();
+        if(calendar == null) calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
-        setButton(BUTTON_POSITIVE, getContext().getString(R.string.positive_variant), (d, i) -> {calendar = null;});
+        setButton(BUTTON_NEGATIVE, getContext().getString(R.string.positive_variant), (d, i) -> {calendar = null;});
         datePickerDialog.show();
     }
 
     private void showTimeDialog() {
-        if(calendar==null) calendar = Calendar.getInstance();
+        if(calendar == null) calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeSetListener, hour, minute, true);
-        setButton(BUTTON_POSITIVE, getContext().getString(R.string.positive_variant), (d, i) -> {calendar = null;});
+        setButton(BUTTON_NEGATIVE, getContext().getString(R.string.positive_variant), (d, i) -> {calendar = null;});
         timePickerDialog.show();
     }
 
