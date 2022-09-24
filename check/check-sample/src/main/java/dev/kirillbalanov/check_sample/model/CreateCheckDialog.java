@@ -68,7 +68,7 @@ public class CreateCheckDialog extends AlertDialog {
                     check.setCalendar(calendar);
                     createCallback.created(check);
                 } else if(!number.getText().toString().isEmpty()){
-                    Check check = new Check(idCheck, Float.valueOf(number.getText().toString()), calendar.getTimeInMillis());
+                    Check check = new Check(idCheck, Float.valueOf(number.getText().toString()), calendar);
                     if (check.isValid()) {
                         createCallback.created(check);
                         idCheck++;

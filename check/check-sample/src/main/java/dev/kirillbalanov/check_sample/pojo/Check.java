@@ -7,6 +7,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
 import java.util.Calendar;
 
 @Entity(tableName = "checks")
@@ -16,16 +19,14 @@ public class Check {
     @ColumnInfo(name = "total")
     private Float total;
     @ColumnInfo(name = "data")
-    private Long dataCalendarInLong;
-    @Ignore
+    @TypeConverters({CalendarLongConvert.class})
     private Calendar calendar;
 
     public Calendar getCalendar() {
-        return longToCalendar(getDataCalendarInLong());
+        return calendar;
     }
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
-        dataCalendarInLong = calendar.getTimeInMillis();
     }
 
     public long getId() {
@@ -42,52 +43,49 @@ public class Check {
         this.total = total;
     }
 
-    public long getDataCalendarInLong() {
-        return calendar.getTimeInMillis();
-    }
-    public void setDataCalendarInLong(long dataCalendarInLong) {
-        this.dataCalendarInLong = dataCalendarInLong;
-    }
-
-    public Check(long id, Float total, Long dataCalendarInLong) {
+    public Check(long id, Float total, Calendar calendar) {
         this.id = id;
         this.total = total;
-        this.calendar = longToCalendar(dataCalendarInLong);
-        this.dataCalendarInLong = dataCalendarInLong;
+        this.calendar = calendar;
     }
 
     public boolean isValid() {
-        return !getTotal().toString().isEmpty() && !dateFormat.format(longToCalendar(dataCalendarInLong).getTime()).isEmpty()
-                && !timeFormat.format(longToCalendar(dataCalendarInLong).getTime()).isEmpty();
+        return !getTotal().toString().isEmpty() && !dateFormat.format(calendar.getTime()).isEmpty()
+                && !timeFormat.format(calendar.getTime()).isEmpty();
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "Summary: " + getTotal() + " Date: " + dateFormat.format(longToCalendar(dataCalendarInLong).getTime())
-                + " Time: " + timeFormat.format(longToCalendar(dataCalendarInLong).getTime());
+        return "Summary: " + getTotal() + " Date: " + dateFormat.format(calendar.getTime())
+                + " Time: " + timeFormat.format(calendar.getTime());
     }
 
-    public Calendar longToCalendar(Long time) {
-        Calendar value = null;
-        if (time != null) {
-            value = Calendar.getInstance();
-            value.setTimeInMillis(time);
+    public static class CalendarLongConvert{
+        @TypeConverter
+        public static Calendar longToCalendar(Long time) {
+            Calendar value = null;
+            if (time!= null) {
+                value = Calendar.getInstance();
+                value.setTimeInMillis(time);
+            }
+            return value;
         }
-        return value;
+        @TypeConverter
+        public Long calendarToLong(Calendar calendar){
+            if(calendar!=null){
+                return calendar.getTimeInMillis();
+            } else return null;
+        }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Check check = (Check) o;
-
         if (id != check.id) return false;
         if (total != null ? !total.equals(check.total) : check.total != null) return false;
-        if (dataCalendarInLong != null ? !dataCalendarInLong.equals(check.dataCalendarInLong) : check.dataCalendarInLong != null)
-            return false;
         return calendar != null ? calendar.equals(check.calendar) : check.calendar == null;
     }
 
@@ -95,7 +93,6 @@ public class Check {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (total != null ? total.hashCode() : 0);
-        result = 31 * result + (dataCalendarInLong != null ? dataCalendarInLong.hashCode() : 0);
         result = 31 * result + (calendar != null ? calendar.hashCode() : 0);
         return result;
     }

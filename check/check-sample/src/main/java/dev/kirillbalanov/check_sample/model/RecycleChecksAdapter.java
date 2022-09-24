@@ -14,7 +14,6 @@ import dev.kirillbalanov.check_sample.view.SampleActivity;
 public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
     private List<Check> checks = new ArrayList<>();
-    private SampleActivity context;
     AdapterCallback adapterCallback;
 
     @NonNull
@@ -36,13 +35,12 @@ public class RecycleChecksAdapter extends RecyclerView.Adapter<CustomViewHolder>
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setChecks(SampleActivity context, List<Check> checks){
-        this.context = context;
+    public void setChecks(List<Check> checks){
         this.checks = checks;
         notifyDataSetChanged();
     }
 
-    public void deleteItem( int position){
+    public void deleteItem(int position){
         adapterCallback.created(checks.get(position), true);
     }
 

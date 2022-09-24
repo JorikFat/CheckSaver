@@ -25,4 +25,7 @@ public class SampleViewModel extends ViewModel {
     public void deleteCheck(Check check){
         new Thread(() -> appDataBase.checksDao().delete(check)).start();
     }
+    public void updateCheck(Check check){
+        new Thread(() -> appDataBase.checksDao().update(check)).start();
+    }
 }

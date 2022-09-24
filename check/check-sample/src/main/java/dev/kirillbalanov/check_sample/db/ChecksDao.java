@@ -6,6 +6,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
+
 import java.util.List;
 
 import dev.kirillbalanov.check_sample.pojo.Check;
@@ -22,4 +24,7 @@ public interface ChecksDao {
 
     @Delete
     void delete(Check check);
+
+    @Update
+    void update(Check check);
 }

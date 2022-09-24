@@ -19,7 +19,6 @@ import dev.kirillbalanov.check_sample.viewModel.SampleViewModel;
 public class SampleActivity extends AppCompatActivity {
     @Inject
     public SampleViewModel viewModel;
-    private List<Check> checks = new ArrayList<>();
     RecycleChecksAdapter checksRecycleAdapter;
     Check choseCheck;
 
@@ -38,9 +37,8 @@ public class SampleActivity extends AppCompatActivity {
         });
 
         viewModel.getChecksData().observe(this, checks -> {
-            this.checks = checks;
             if (checks.isEmpty()) myCustomDialog(null);
-            checksRecycleAdapter.setChecks(this, checks);
+            checksRecycleAdapter.setChecks(checks);
         });
 
         RecyclerView checkRecycleView = findViewById(R.id.rc_check);
@@ -51,7 +49,7 @@ public class SampleActivity extends AppCompatActivity {
 
     public void myCustomDialog(Calendar calendar) {
         if(calendar!=null) {
-            new CreateCheckDialog(this, calendar, choseCheck, check -> viewModel.insertChecks(check)).show();
+            new CreateCheckDialog(this, calendar, choseCheck, check -> viewModel.updateCheck(check)).show();
         } else new CreateCheckDialog(this, check -> viewModel.insertChecks(check)).show();
     }
 
