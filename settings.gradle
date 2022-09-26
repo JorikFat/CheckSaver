@@ -16,3 +16,5 @@ rootProject.name = "CheckSaver"
 include ':app'
 include ':check:check-sample'
 include ':core'
+include ':pay'
+include ':pay:pays_sample'
