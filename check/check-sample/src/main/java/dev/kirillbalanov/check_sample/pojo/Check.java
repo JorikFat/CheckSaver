@@ -5,12 +5,11 @@ import static dev.jorik.checksaver.core.Utils.timeFormat;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
-
 import java.util.Calendar;
+import java.util.Objects;
 
 @Entity(tableName = "checks")
 public class Check {
@@ -85,8 +84,8 @@ public class Check {
         if (o == null || getClass() != o.getClass()) return false;
         Check check = (Check) o;
         if (id != check.id) return false;
-        if (total != null ? !total.equals(check.total) : check.total != null) return false;
-        return calendar != null ? calendar.equals(check.calendar) : check.calendar == null;
+        if (!Objects.equals(total, check.total)) return false;
+        return Objects.equals(calendar, check.calendar);
     }
 
     @Override
