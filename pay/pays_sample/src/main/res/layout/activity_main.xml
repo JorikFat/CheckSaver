@@ -9,17 +9,6 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck"
-        tools:layout_editor_absoluteX="209dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id = "@+id/rc_pushase"
         android:layout_width="match_parent"

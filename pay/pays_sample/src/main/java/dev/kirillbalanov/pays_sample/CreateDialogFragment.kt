@@ -5,24 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import dev.kirillbalanov.pays_sample.databinding.FragmentDialogBinding
 
 class CreateDialogFragment: DialogFragment() {
-
+    lateinit var binding: FragmentDialogBinding
     companion object {
-
         const val TAG = "CustomDialogFragment"
-
         private const val KEY_TITLE = "KEY_TITLE"
-        private const val KEY_SUBTITLE = "KEY_SUBTITLE"
-
         //take the title and subtitle form the Activity
-        fun newInstance(title: String, subTitle: String): CreateDialogFragment {
+        fun newInstance(title: String): CreateDialogFragment {
             val args = Bundle()
             args.putString(KEY_TITLE, title)
-            args.putString(KEY_SUBTITLE, subTitle)
             val fragment = CreateDialogFragment()
             fragment.arguments = args
             return fragment
@@ -34,7 +28,8 @@ class CreateDialogFragment: DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_dialog, container, false)
+        binding = FragmentDialogBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,10 +48,10 @@ class CreateDialogFragment: DialogFragment() {
 
     //setting the text in CustomDialog
     private fun setupView(view: View) {
-        view.findViewById<TextView>(R.id.tvTitle).text = arguments?.getString(KEY_TITLE)
-        view.findViewById<TextView>(R.id.tvSubTitle).text = arguments?.getString(KEY_SUBTITLE)
-        if (view.findViewById<EditText>(R.id.quantity).text.isEmpty() && view.findViewById<EditText>(R.id.price).text.isEmpty()){  //сделать не пустыми, в случаем ввода
-            view.findViewById<TextView>(R.id.summary).text = "45"
+        binding.diTitle.text = arguments?.getString(KEY_TITLE)
+        if (binding.diPrice.text.isEmpty()
+            && binding.diQuantity.text.isEmpty()){  //сделать не пустыми, в случаем ввода
+            binding.diSummary.text = "45"
         }
     }
 
