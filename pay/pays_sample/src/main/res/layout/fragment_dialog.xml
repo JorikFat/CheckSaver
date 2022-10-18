@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/di_name_good"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="45dp"
+        android:gravity="center_vertical"
+        android:hint="Имя товара"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/di_Title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/di_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:hint="1"
+        android:inputType="numberDecimal"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/di_name_good"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/di_price"
+        app:layout_constraintTop_toBottomOf="@+id/di_name_good" />
+
+    <EditText
+        android:id="@+id/di_price"
+        android:layout_width="180dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:hint="1000"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/di_name_good"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/di_name_good"
+        app:layout_constraintTop_toBottomOf="@+id/di_name_good" />
+
+    <TextView
+        android:id="@+id/di_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:hint="0₽"
+        app:layout_constraintEnd_toEndOf="@+id/di_name_good"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/di_quantity"
+        app:layout_constraintTop_toBottomOf="@+id/di_quantity" />
+
+    <TextView
+        android:id="@+id/di_Title"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="291dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/di_btnPositive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Добавить"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/di_btnNegative" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/di_btnNegative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="15dp"
+        android:text="Ещё"
+        app:layout_constraintEnd_toStartOf="@id/di_btnPositive"
+        app:layout_constraintTop_toBottomOf="@+id/di_summary" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/di_btnNegative2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="55dp"
+        android:text="Отмена"
+        app:layout_constraintEnd_toStartOf="@+id/di_btnNegative"
+        app:layout_constraintTop_toTopOf="@+id/di_btnNegative" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

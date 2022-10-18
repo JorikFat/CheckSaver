@@ -5,9 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import javax.inject.Inject;
 import dev.kirillbalanov.check_sample.R;
 import dev.kirillbalanov.check_sample.di.module.SampleActivityModule;
@@ -30,10 +28,13 @@ public class SampleActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_add).setOnClickListener(view -> myCustomDialog(null));
 
-        checksRecycleAdapter = new RecycleChecksAdapter((choseCheck, isDeleted) -> {
-            this.choseCheck = choseCheck;
-            if(isDeleted) deleteItemInRecycle(choseCheck);
-            else myCustomDialog(choseCheck.getCalendar());
+        checksRecycleAdapter = new RecycleChecksAdapter(new RecycleChecksAdapter.AdapterCallback() {
+            @Override
+            public void created(Check choseCheck, Boolean isDeleted) {
+                SampleActivity.this.choseCheck = choseCheck;
+                if (isDeleted) SampleActivity.this.deleteItemInRecycle(choseCheck);
+                else SampleActivity.this.myCustomDialog(choseCheck.getCalendar());
+            }
         });
 
         viewModel.getChecksData().observe(this, checks -> {
